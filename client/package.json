@@ -1,0 +1,17 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "chat.js",
+  "scripts": {
+    "start": "snowpack dev"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "snowpack": "^3.8.8"
+  },
+  "dependencies": {
+    "socket.io-client": "^4.6.1"
+  }
+}
