@@ -1,7 +1,10 @@
 [
-  "Select 1 to Place an order.",
-  "Select 99 checkout order.",
-  "Select 98 to see order history.",
-  "Select 97 to see current order.",
-  "Select 0 to cancel order."
+  {
+    "1": "Select 1 to Place an order.",
+    "99": "Select 99 checkout order.",
+    "98": "Select 98 to see order history.",
+    "97": "Select 97 to see current order.",
+    "0": "Select 0 to cancel order."
+  },
+  { "checkout": "cool!!!order placed" }
 ]

@@ -37,12 +37,13 @@ socket.on("botResponse", ({ type, data }) => {
       break;
 
     case "checkout":
-      // displayMessage(JSON.stringify(menu), true);
+      displayCheckout(data, true);
       break;
 
     case "order":
-      const total = data.reduce((prev, item) => prev + item.price, 0);
-      displayMessage(`${JSON.stringify(data)} , ${total}`, true);
+      const storedOrders = localStorage.setItem("data", data);
+      console.log(storedOrders);
+      displayOrder(data, true);
       break;
 
     default:
@@ -83,8 +84,17 @@ function displayGreetings() {
   const greeting = `<p>Welcome!</p>`;
   displayMessage(greeting, true);
 }
-
-// function displayOrder() {
-//   const order = `<p>order are coming!</p>`;
-//   displayMessage(order, true);
-// }
+function displayOrder(orders) {
+  const total = orders.reduce((prev, item) => prev + item.price, 0);
+  const htmlFormattedOpts = `<p><ul>${orders
+    .map(
+      (item) => `<li>${item.dishType} => ${item.name} => $${item.price}</li>`
+    )
+    .join("")} Total => ${total}</ul></p>`;
+  displayMessage(htmlFormattedOpts, true);
+}
+function displayCheckout() {
+  const htmlFormattedOpts = `<p>cool!!!<br> order placed
+ </p>`;
+  displayMessage(htmlFormattedOpts, true);
+}

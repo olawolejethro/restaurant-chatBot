@@ -95,7 +95,7 @@ io.on("connection", async (socket) => {
   });
   socket.emit("loadChatHistory", userChatHistory);
   //   Initial Msg
-  socket.emit("botInitialMsg", options);
+  socket.emit("botInitialMsg", Object.values(options[0]));
   // Save Chat
   socket.on("saveMsg", async (chat, isBotMsg) => {
     const chatMsg = await Chat.create({
@@ -106,7 +106,6 @@ io.on("connection", async (socket) => {
     });
     // console.log(chatMsg);
   });
-
   socket.on("Msg", async (chat) => {
     switch (chat) {
       case "1":
@@ -115,7 +114,11 @@ io.on("connection", async (socket) => {
 
       case "99":
         // Checkout logic
-        // socket.emit("botResponse", {type:"checkout", data:menu});
+        socket.emit("botResponse", {
+          type: "checkout",
+          data: Object.values(options[1]),
+        });
+
         break;
 
       case "98":
@@ -139,7 +142,15 @@ io.on("connection", async (socket) => {
         const orders = menu.filter((item) =>
           selectedItems.includes(item.dishNo)
         );
+        let newSelectedItem = selectedItems.reduce((prev, curr, i) => {
+          prev[i] = curr;
+        });
+
+        console.log(newSelectedItem);
         socket.emit("botResponse", { type: "order", data: orders });
+        // const storedOrders = sessionStorage.setItem("", orders);
+        // console.log(storedOrders);
+
         break;
     }
   });
