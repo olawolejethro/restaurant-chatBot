@@ -6,5 +6,6 @@
     "97": "Select 97 to see current order.",
     "0": "Select 0 to cancel order."
   },
-  { "checkout": "cool!!!order placed" }
+  { "checkout": "cool!!!order placed" },
+  { "deleteOrder": "Your cancelled your order" }
 ]
