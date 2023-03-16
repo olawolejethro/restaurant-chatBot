@@ -8,31 +8,33 @@ const MongoStore = require("connect-mongodb-session")(session);
 const { v4: uuidv4 } = require("uuid");
 require("dotenv").config();
 const { Server } = require("socket.io");
-// const moment = require("moment");
 
 const app = require("./app");
+const connectToMongoDB = require("./chatDb");
 const Menu = require("./models/menuModel");
 const Chat = require("./models/chatModel");
 const User = require("./models/userModel");
 const Order = require("./models/orderModel");
 const { emit } = require("process");
 
-const PORT = 8000,
-  HOST = "127.0.0.1";
+const PORT = process.env.PORT || 8000;
+const HOST = process.env.HOST || "127.0.0.1";
+const MONGODB_CONNECTION = process.env.MONGODB_CONNECTION;
+const SESSION_SECRET = process.env.SESSION_SECRET;
+const COOKIE_EXPIRATION_TIME = process.env.COOKIE_EXPIRATION_TIME;
+const httpServer = http.createServer(app);
 
-mongoose
-  .connect("mongodb://localhost:27017/chatBot")
-  .then(() => {
-    console.log("Connection to MongoDB Successful!");
+connectToMongoDB()
+  .then(
     httpServer.listen(PORT, HOST, () => {
       console.log("Server running on port", PORT);
-    });
-  })
-  .catch((error) => {
-    console.log(error, "Connection to MongoDB failed!");
+    })
+  )
+  .catch(() => {
+    console.log(
+      "Server could not be started because connection to MongoDB failed."
+    );
   });
-
-const httpServer = http.createServer(app);
 
 const io = new Server(httpServer);
 
@@ -40,7 +42,7 @@ const wrap = (midddleware) => (socket, next) =>
   midddleware(socket.request, {}, next);
 
 const store = new MongoStore({
-  uri: "mongodb://localhost:27017/chatBot",
+  uri: MONGODB_CONNECTION,
   collection: "sessions",
 });
 
@@ -49,11 +51,11 @@ store.on("error", (error) => {
 });
 
 const sessionMW = session({
-  secret: "your-secret-key-here",
+  secret: SESSION_SECRET,
   resave: true,
   saveUninitialized: true,
   store: store,
-  cookie: { secure: false }, // Set secure to true if using HTTPS
+  cookie: { secure: false, maxAge: +COOKIE_EXPIRATION_TIME }, // Set secure to true if using HTTPS
 });
 
 app.use(sessionMW);
@@ -89,27 +91,30 @@ io.on("connection", async (socket) => {
   }
   console.log(session.userId);
   // Load Chat History
+
   const userChatHistory = await Chat.find({
     userId: user._id,
   });
-  socket.emit("loadChatHistory", userChatHistory);
-  //   Initial Msg
-  socket.emit("botInitialMsg", Object.values(options[0]));
+  socket.emit("onload", {
+    chatHistory: userChatHistory,
+    opts: Object.values(options[0]),
+  });
+
   // Save Chat
   socket.on("saveMsg", async (chat, isBotMsg) => {
     const chatMsg = await Chat.create({
       userId: user._id,
       chatMsg: chat,
       isBotMsg,
-      // time: moment.now("h:mm n"),
     });
     // console.log(chatMsg);
   });
+
   socket.on("Msg", async (chat) => {
     const selectedItems = chat.split(",");
     let orders = menu.filter((item) => selectedItems.includes(item.dishNo));
     session.orders = orders;
-    console.log(session.orders);
+    // console.log(session.orders);
     const orderingPattern = /^[2-9](,[2-9])*$/;
     switch (true) {
       case chat === "1":
@@ -123,7 +128,7 @@ io.on("connection", async (socket) => {
           await Order.create({ orders: ordersId, userId: user._id });
           socket.emit("botResponse", {
             type: null,
-            data: { message: Object.values(options[1]) },
+            data: { message: options[1].checkout },
           });
           session.currentOrder = undefined;
           session.save((err) => {
@@ -133,8 +138,8 @@ io.on("connection", async (socket) => {
           });
         } else {
           socket.emit("botResponse", {
-            type: null,
-            data: { message: "No order to checkout." },
+            type: "invalidInput",
+            data: { message: "No order to checkout, please place an order." },
           });
         }
         break;
@@ -170,7 +175,10 @@ io.on("connection", async (socket) => {
         } else {
           socket.emit("botResponse", {
             type: null,
-            data: { message: "No current order." },
+            data: {
+              message:
+                "you don't have a current order with us, please place an order.",
+            },
           });
         }
         break;
@@ -189,7 +197,7 @@ io.on("connection", async (socket) => {
         } else {
           socket.emit("botResponse", {
             type: null,
-            data: { message: "No order to cancel." },
+            data: { message: "You don't have any order here to cancel." },
           });
         }
         break;
@@ -213,7 +221,9 @@ io.on("connection", async (socket) => {
       default:
         socket.emit("botResponse", {
           type: "invalidInput",
-          data: { message: "Invalid input" },
+          data: {
+            message: "Invalid input",
+          },
         });
         break;
     }
