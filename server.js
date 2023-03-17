@@ -19,7 +19,7 @@ const { emit } = require("process");
 
 const PORT = process.env.PORT || 8000;
 const HOST = process.env.HOST || "127.0.0.1";
-const MONGODB_CONNECTION = process.env.MONGODB_CONNECTION;
+const MONGODB_CONNECTION_URL = process.env.MONGODB_CONNECTION_URL;
 const SESSION_SECRET = process.env.SESSION_SECRET;
 const COOKIE_EXPIRATION_TIME = process.env.COOKIE_EXPIRATION_TIME;
 const httpServer = http.createServer(app);
@@ -42,7 +42,7 @@ const wrap = (midddleware) => (socket, next) =>
   midddleware(socket.request, {}, next);
 
 const store = new MongoStore({
-  uri: MONGODB_CONNECTION,
+  uri: MONGODB_CONNECTION_URL,
   collection: "sessions",
 });
 
