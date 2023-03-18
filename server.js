@@ -10,7 +10,7 @@ require("dotenv").config();
 const { Server } = require("socket.io");
 
 const app = require("./app");
-const connectToMongoDB = require("./chatDb");
+const connectToMongoDB = require("./config/chatDb");
 const Menu = require("./models/menuModel");
 const Chat = require("./models/chatModel");
 const User = require("./models/userModel");
@@ -55,14 +55,19 @@ const sessionMW = session({
   resave: true,
   saveUninitialized: true,
   store: store,
-  cookie: { secure: false, maxAge: +COOKIE_EXPIRATION_TIME }, // Set secure to true if using HTTPS
+  cookie: {
+    secure: false,
+    maxAge: +COOKIE_EXPIRATION_TIME,
+    domain: "http://mealicious-bot.onrender.com/",
+  }, // Set secure to true if using HTTPS
 });
 
+// MIDDLEWARES
 app.use(sessionMW);
 app.use(cookieParser());
-
 io.use(wrap(sessionMW));
 
+//CONECTION TO socket io
 io.on("connection", async (socket) => {
   const menu = await Menu.find({}).sort({ dishNo: 1 });
   const optionsJSON = await fs.readFile(

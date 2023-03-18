@@ -1,5 +1,6 @@
 import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
 export const socket = io("https://mealicious-bot.onrender.com");
+// export const socket = io("https://localhost:8000");
 
 const chatHistory = document.getElementById("chat-history");
 
@@ -43,10 +44,6 @@ function displayOptions(optsArray) {
   displayMessage(htmlFormattedResponse, true, false);
 }
 
-function displayBotimage() {
-  const htmlFormattedResponse = `<span class="date">5:42</span>`;
-  // displayMessage(htmlFormattedResponse, true);
-}
 function displayOrderHistory(orders) {
   console.log(orders);
   const htmlFormattedResponse = `<p><ul>${orders
@@ -59,9 +56,7 @@ function displayOrderHistory(orders) {
 
 function displayMenu(menu) {
   const htmlFormattedResponse = `<p><ol start=2>${menu
-    .map(
-      (item) => `<li>${item.dishType} => ${item.name} => $${item.price}</li>`
-    )
+    .map((item) => `<li>${item.dishType}👉 ${item.name} 🥧 $${item.price}</li>`)
     .join("")}</ol></p>`;
   displayMessage(htmlFormattedResponse, true);
 }
@@ -76,7 +71,7 @@ function displayCurrentOrder(orders) {
   const htmlFormattedResponse = `<p>Current Order Summary
   <ul>${orders
     .map(
-      (item) => `<li>${item.dishType} => ${item.name} => $${item.price}</li>`
+      (item) => `<li>${item.dishType} 👉 ${item.name} .🥧$${item.price}</li>`
     )
     .join("")} Total => ${total}</ul></p>`;
   displayMessage(htmlFormattedResponse, true);
