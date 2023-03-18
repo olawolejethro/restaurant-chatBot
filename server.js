@@ -1,7 +1,6 @@
 const fs = require("fs/promises");
 const http = require("http");
 const path = require("path");
-const mongoose = require("mongoose");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const MongoStore = require("connect-mongodb-session")(session);
