@@ -15,10 +15,16 @@ function displayMessage(
   dbChatTime = undefined
 ) {
   const timeStampOptions = {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
     hour: "numeric",
     minute: "numeric",
-    date: "numeric",
+    hours12: false,
   };
+
+  console.log(timeStampOptions);
+  console.log(time);
   const date = dbChatTime ? new Date(dbChatTime) : new Date();
   const dateString = date.toLocaleTimeString(undefined, timeStampOptions);
   console.log(dateString);
