@@ -23,11 +23,8 @@ function displayMessage(
     hours12: false,
   };
 
-  console.log(timeStampOptions);
-  console.log(time);
   const date = dbChatTime ? new Date(dbChatTime) : new Date();
-  const dateString = date.toLocaleTimeString(undefined, timeStampOptions);
-  console.log(dateString);
+  const dateString = date.toLocaleString(undefined, timeStampOptions);
   const chatMessage = document.createElement("div");
   chatMessage.className = `chat-message ${isBotMsg ? "bot" : "user"}-message`;
   chatMessage.innerHTML = message;
