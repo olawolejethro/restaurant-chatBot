@@ -122,7 +122,7 @@ npm run dev
 
 ## Deployment
 
-https://blog-cm7d.onrender.com/api/v1
+https://mealicious-bot.onrender.com/
 
 ## Authors
 

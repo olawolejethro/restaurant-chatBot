@@ -48,14 +48,17 @@ function displayOrderHistory(orders) {
   console.log(orders);
   const htmlFormattedResponse = `<p><ul>${orders
     .map(
-      (order) => `<li>${order.orders.map((item) => item.name).join("")}</li>`
+      (order) =>
+        `<p>Order history</><li>${order.orders
+          .map((item) => item.name)
+          .join("")}</li>`
     )
     .join("")}</ul></p>`;
   displayMessage(htmlFormattedResponse, true);
 }
 
 function displayMenu(menu) {
-  const htmlFormattedResponse = `<p><ol start=2>${menu
+  const htmlFormattedResponse = `<p>Menu List<ol start=2>${menu
     .map((item) => `<li>${item.dishType}👉 ${item.name} 🥧 $${item.price}</li>`)
     .join("")}</ol></p>`;
   displayMessage(htmlFormattedResponse, true);
