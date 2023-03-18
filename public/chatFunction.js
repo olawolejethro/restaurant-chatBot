@@ -46,7 +46,7 @@ function displayOptions(optsArray) {
 
 function displayOrderHistory(orders) {
   console.log(orders);
-  const htmlFormattedResponse = `<p><ul>${orders
+  const htmlFormattedResponse = `<p>Order history<ul>${orders
     .map(
       (order) =>
         `<p>Order history</><li>${order.orders
@@ -65,7 +65,7 @@ function displayMenu(menu) {
 }
 
 function displayGreetings() {
-  const greeting = `<p>Welcome!</p>`;
+  const greeting = `<p>Welcome to mealicious Bot!🤖</p>`;
   displayMessage(greeting, true, false);
 }
 
