@@ -4,6 +4,7 @@ let options;
 const chatInput = document.getElementById("chat-input");
 const userInput = document.getElementById("user-input");
 
+//Tracking user input and adding event listener
 chatInput.addEventListener("submit", (e) => {
   e.preventDefault();
   const chat = userInput.value.trim();
@@ -26,7 +27,7 @@ socket.on("onload", ({ chatHistory, opts }) => {
   chatFunction.displayOptions(options);
   chatFunction.displayChatHistory(chatHistory);
 });
-
+// Listener
 socket.on("botResponse", ({ type, data }) => {
   switch (type) {
     case "menu":

@@ -19,6 +19,7 @@ Select 0 to cancel order
 User have to checkout order with 99 before the order can be placed and save in the database
 Each user have a unique sesion ID and this ID is used to save all user message inside the database
 After every reload the still get his/her chat history for future refrences
+when user in put wrong input the bot responde with an in valid message and resend the options
 
 ### 1. Main Dependencies
 

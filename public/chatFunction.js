@@ -1,8 +1,9 @@
 import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
 export const socket = io("https://mealicious-bot.onrender.com");
-// export const socket = io("https://localhost:8000");
 
 const chatHistory = document.getElementById("chat-history");
+
+//Handler Function
 
 function handleScrollToBottom() {
   chatHistory.scrollTo({ top: chatHistory.scrollHeight, behavior: "smooth" });
