@@ -56,7 +56,15 @@ To be able to get this application up and running, ensure to have [node](https:/
 git clone https://github.com/olawolejethro/restaurant-chatBot
 ```
 
-2. **Set up the Database**
+2. **Install the dependencies** from the root directory, in terminal run:
+
+```
+
+npm install
+
+```
+
+3. **Set up the Database**
    - Create 2 MongoDB databases on your local MongoDB server or in the cloud (Atlas)
    - Copy the connection strings and assign it to the `MONGODB_CONNECTION_URL` and other environment variables in the example.env file each.
    - On connection to these databases, four collections - `users`,`chat`,`order`,`session`and `Menus` will be created.
@@ -100,13 +108,6 @@ response from the db when user press 1
 }
 |```
 
-3. **Install the dependencies** from the root directory, in terminal run:
-
-````
-
-npm install
-
-````
 
 4. **Create a .env file**.
 

@@ -24,6 +24,9 @@ const SESSION_SECRET = process.env.SESSION_SECRET;
 const COOKIE_EXPIRATION_TIME = process.env.COOKIE_EXPIRATION_TIME;
 const httpServer = http.createServer(app);
 
+setTimeout(() => {
+  30000000;
+});
 connectToMongoDB()
   .then(
     httpServer.listen(PORT, HOST, () => {
@@ -179,7 +182,7 @@ io.on("connection", async (socket) => {
           });
         } else {
           socket.emit("botResponse", {
-            type: null,
+            type: "invalidInput",
             data: {
               message:
                 "you don't have a current order with us, please place an order.",
