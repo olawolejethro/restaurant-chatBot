@@ -27,7 +27,7 @@ socket.on("onload", ({ chatHistory, opts }) => {
   chatFunction.displayOptions(options);
   chatFunction.displayChatHistory(chatHistory);
 });
-// Listener
+// Listeners
 socket.on("botResponse", ({ type, data }) => {
   switch (type) {
     case "menu":

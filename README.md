@@ -90,9 +90,8 @@ reponse of user saved in the Db
 ### Chat
 
 ````json
-response from the db when user press 1
 {
-"\_id": {
+"_id": {
 "$oid": "641400382c6e47585776e744"
   },
   "userId": {
@@ -105,7 +104,7 @@ response from the db when user press 1
       "$numberLong": "1679032376274"
 }
 },
-"\_\_v": 0
+"__v": 0
 }
 |```
 
