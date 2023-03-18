@@ -117,6 +117,7 @@ io.on("connection", async (socket) => {
     // console.log(chatMsg);
   });
 
+  console.log(options[1].checkout);
   socket.on("Msg", async (chat) => {
     const selectedItems = chat.split(",");
     let orders = menu.filter((item) => selectedItems.includes(item.dishNo));

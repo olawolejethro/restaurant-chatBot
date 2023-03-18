@@ -14,9 +14,14 @@ function displayMessage(
   saveToDB = true,
   dbChatTime = undefined
 ) {
-  const timeStampOptions = { hour: "numeric", minute: "numeric" };
+  const timeStampOptions = {
+    hour: "numeric",
+    minute: "numeric",
+    date: "numeric",
+  };
   const date = dbChatTime ? new Date(dbChatTime) : new Date();
   const dateString = date.toLocaleTimeString(undefined, timeStampOptions);
+  console.log(dateString);
   const chatMessage = document.createElement("div");
   chatMessage.className = `chat-message ${isBotMsg ? "bot" : "user"}-message`;
   chatMessage.innerHTML = message;
@@ -46,7 +51,7 @@ function displayOptions(optsArray) {
 
 function displayOrderHistory(orders) {
   console.log(orders);
-  const htmlFormattedResponse = `<p>Order history<ul>${orders
+  const htmlFormattedResponse = `<p><ul>${orders
     .map(
       (order) =>
         `<p>Order history</><li>${order.orders
